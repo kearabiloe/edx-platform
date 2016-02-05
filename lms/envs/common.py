@@ -1248,9 +1248,9 @@ main_vendor_js = base_vendor_js + [
     'js/vendor/jquery-ui.min.js',
     'js/vendor/jquery.qtip.min.js',
     'js/vendor/jquery.ba-bbq.min.js',
-    'js/vendor/afontgarde/modernizr.fontface-generatedcontent.js',
-    'js/vendor/afontgarde/afontgarde.js',
-    'js/vendor/afontgarde/edx-icons.js'
+    'pattern-library/js/modernizr.custom.js',
+    'pattern-library/js/afontgarde.js',
+    'pattern-library/js/edx-icons.js',
 ]
 
 # Common files used by both RequireJS code and non-RequireJS code
@@ -1637,7 +1637,8 @@ REQUIRE_JS_PATH_OVERRIDES = [
     'js/vendor/moment.min.js',
     'js/vendor/url.min.js',
     'js/courseware/course_home_events.js',
-    'js/courseware/toggle_element_visibility.js'
+    'js/courseware/toggle_element_visibility.js',
+    'js/vendor/draggabilly.pkgd.js',
 ]
 ################################# CELERY ######################################
 
