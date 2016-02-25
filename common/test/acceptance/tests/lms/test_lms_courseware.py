@@ -2,7 +2,8 @@
 """
 End-to-end tests for the LMS.
 """
-import time
+from nose.plugins.attrib import attr
+from unittest import skip
 
 from ..helpers import UniqueCourseTest
 from ...pages.studio.auto_auth import AutoAuthPage
@@ -426,7 +427,14 @@ class CoursewareMultipleVerticalsTest(UniqueCourseTest):
                     XBlockFixtureDesc('problem', 'Test Problem 2', data="<problem>problem 2 dummy body</problem>"),
                     XBlockFixtureDesc('html', 'html 2', data="<html>html 2 dummy body</html>"),
                 ),
-                XBlockFixtureDesc('sequential', 'Test Subsection 2'),
+                XBlockFixtureDesc('sequential', 'Test Subsection 2').add_children(
+                    XBlockFixtureDesc('problem', 'Test Problem 3', data='<problem>problem 3 dummy body</problem>'),
+                ),
+            ),
+            XBlockFixtureDesc('chapter', 'Test Section 2').add_children(
+                XBlockFixtureDesc('sequential', 'Test Subsection 3').add_children(
+                    XBlockFixtureDesc('problem', 'Test Problem 4', data='<problem>problem 4 dummy body</problem>'),
+                ),
             ),
         ).install()
 
@@ -436,10 +444,36 @@ class CoursewareMultipleVerticalsTest(UniqueCourseTest):
         self.courseware_page.visit()
         self.course_nav = CourseNavPage(self.browser)
 
+    def test_navigation_buttons(self):
+        # start in first section
+        self.course_nav.go_to_section('Test Section 1', 'Test Subsection 1')
+        self.assertEquals(self.courseware_page.sequential_position, 0)
+        self.assertFalse(self.courseware_page.is_previous_button_enabled)
+        self.assertTrue(self.courseware_page.is_next_button_enabled)
+
+        # next takes us to next tab in sequential
+        self.courseware_page.click_next_button_on_top()
+        self.assertTrue(self.course_nav.is_on_section('Test Section 1', 'Test Subsection 1'))
+        self.assertEquals(self.courseware_page.sequential_position, 1)
+
+        # go to last sequential position
+        self.courseware_page.go_to_sequential_position(4)
+
+        # next takes us to next sequential
+        self.courseware_page.click_next_button_on_bottom()
+        self.assertTrue(self.course_nav.is_on_section('Test Section 1', 'Test Subsection 2'))
+        self.assertEquals(self.courseware_page.sequential_position, 0)
+
+        # next takes us to next chapter
+        self.courseware_page.click_next_button_on_top()
+        self.assertTrue(self.course_nav.is_on_section('Test Section 2', 'Test Subsection 3'))
+        self.assertEquals(self.courseware_page.sequential_position, 0)
+        self.assertFalse(self.courseware_page.is_next_button_enabled)
+
     def test_tab_position(self):
         # test that using the position in the url direct to correct tab in courseware
         self.course_nav.go_to_section('Test Section 1', 'Test Subsection 1')
-        subsection_url = self.courseware_page.get_active_subsection_url()
+        subsection_url = self.course_nav.active_subsection_url
         url_part_list = subsection_url.split('/')
         self.assertEqual(len(url_part_list), 9)
 
@@ -481,3 +515,15 @@ class CoursewareMultipleVerticalsTest(UniqueCourseTest):
             position=4
         ).visit()
         self.assertIn('html 2 dummy body', html2_page.get_selected_tab_content())
+
+    @skip('Fix a11y test errors.')
+    @attr('a11y')
+    def test_courseware_a11y(self):
+        """
+        Run accessibility audit for the problem type.
+        """
+        self.course_nav.go_to_section('Test Section 1', 'Test Subsection 1')
+        # Set the scope to the sequence navigation
+        self.courseware_page.a11y_audit.config.set_scope(
+            include=['div.sequence-nav'])
+        self.courseware_page.a11y_audit.check_for_accessibility_errors()

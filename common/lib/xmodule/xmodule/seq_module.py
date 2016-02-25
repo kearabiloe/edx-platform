@@ -177,9 +177,12 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
         raise NotFoundError('Unexpected dispatch type')
 
     def student_view(self, context):
+        display_items = self.get_display_items()
+
         # If we're rendering this sequence, but no position is set yet,
+        # or exceeds the length of the displayable items,
         # default the position to the first element
-        if self.position is None:
+        if self.position is None or self.position > len(display_items) or context.get('first_child'):
             self.position = 1
 
         ## Returns a set of all types of all sub-children
@@ -211,7 +214,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 fragment.add_content(view_html)
                 return fragment
 
-        display_items = self.get_display_items()
         for child in display_items:
             is_bookmarked = bookmarks_service.is_bookmarked(usage_key=child.scope_ids.usage_id)
             context["bookmarked"] = is_bookmarked
@@ -238,6 +240,12 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 childinfo['title'] = child.display_name_with_default_escaped
             contents.append(childinfo)
 
+        next_url = _compute_next_url(
+            self.location,
+            parent_module,
+            context['redirect_url_func'],
+        ) if context.get('redirect_url_func') else None
+
         params = {
             'items': contents,
             'element_id': self.location.html_id(),
@@ -245,6 +253,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'position': self.position,
             'tag': self.location.category,
             'ajax_url': self.system.ajax_url,
+            'next_url': next_url,
         }
 
         fragment.add_content(self.system.render_template("seq_module.html", params))
@@ -453,3 +462,29 @@ class SequenceDescriptor(SequenceFields, ProctoringFields, MakoModuleDescriptor,
         xblock_body["content_type"] = "Sequence"
 
         return xblock_body
+
+
+def _compute_next_url(block_location, parent_block, redirect_url_func):
+    """
+    Returns the url for the next module after the given block.
+
+    Arguments:
+        block_location: Location of the block that is being navigated.
+        parent_block: Parent block of the given block.
+        redirect_url_func: Function that computes a redirect URL directly to
+            a block, given the block's location.
+    """
+    index_in_parent = parent_block.children.index(block_location)
+    if index_in_parent + 1 < len(parent_block.children):
+        next_module_location = parent_block.children[index_in_parent + 1]
+        if next_module_location:
+            return redirect_url_func(
+                block_location.course_key,
+                next_module_location,
+                first_child=True,
+            )
+    else:
+        grandparent = parent_block.get_parent()
+        if grandparent:
+            return _compute_next_url(parent_block.location, grandparent, redirect_url_func)
+    return None
