@@ -1985,6 +1985,9 @@ INSTALLED_APPS = (
 
     # Review widgets
     'openedx.core.djangoapps.coursetalk',
+
+    # Learner's dashboard
+    'learner_dashboard',
 )
 
 # Migrations which are not in the standard module "migrations"
