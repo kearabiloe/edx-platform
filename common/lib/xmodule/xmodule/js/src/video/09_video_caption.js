@@ -112,7 +112,7 @@
 
                 var template = [
                     '<div class="subtitles" role="region" aria-label="',
-                        /* jshint maxlen:300 */
+                        /* jshint maxlen:350 */
                         gettext('Video transcript: activating an item in this group will spool the video to the corresponding time point.'),
                         '" id="transcript-' + this.state.id + '">',
                         '<a href="#transcript-end-' + this.state.id + '"',
