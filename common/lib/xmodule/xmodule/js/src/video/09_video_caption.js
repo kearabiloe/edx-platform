@@ -89,12 +89,10 @@
                             '</span>',
                         '</button>',
                         '<div class="lang menu-container" role="application">',
-                            /* jshint maxlen:300 */
-                            '<button class="control language-menu" aria-label="' + gettext('Language: Press the UP arrow key to enter the language menu then use UP and DOWN arrow keys to navigate language options. Press ENTER to change to the selected language.') + '" aria-disabled="false">',
+                            '<button class="control language-menu" aria-label="" aria-disabled="false">',
                                 '<span class="icon-fallback-img">',
                                     '<span class="icon fa fa-caret-left" aria-hidden="true"></span>',
-                                    /* jshint maxlen:300 */
-                                    '<span class="sr control-text">' + gettext("Open langage menu.") + '</span>',
+                                    '<span class="sr control-text"></span>',
                                 '</span>',
                             '</button>',
                         '</div>',
@@ -103,17 +101,13 @@
 
                 var template = [
                     /* jshint maxlen:300 */
-                    '<div class="subtitles" role="region" aria-label="' + gettext('Video transcript: activating an item in this group will spool the video to the corresponding time point.') + '" id="transcript-' + this.state.id + '">',
+                    '<div class="subtitles" role="region" aria-label="" id="transcript-' + this.state.id + '">',
                         '<a href="#transcript-end-' + this.state.id + '"',
-                        /* jshint maxlen:300 */
-                        'id="transcript-start-' + this.state.id + '">' + gettext('Start of transcript. Skip to the end.') + '</a>',
-                        '<h3 id="transcript-label-' + this.state.id + '" class="sr">',
-                            gettext('Video transcript'),
-                        '</h3>',
+                        'id="transcript-start-' + this.state.id + '" class="transcript-start"></a>',
+                        '<h3 id="transcript-label-' + this.state.id + '" class="transcript-title sr"></h3>',
                         '<ol id="transcript-captions" class="subtitles-menu"></ol>',
                         '<a href="#transcript-start-' + this.state.id + '"',
-                        /* jshint maxlen:300 */
-                        'id="transcript-end-' + this.state.id + '">' + gettext('End of transcript. Skip to the start.') + '</a>',
+                        'id="transcript-end-' + this.state.id + '" class="transcript-end"></a>',
                     '</div>'
                 ].join('');
 
@@ -536,7 +530,6 @@
                         } else {
                             if (state.isTouch) {
                                 self.subtitlesEl.find('.subtitles-menu').html(
-                                    /* jshint maxlen:300 */
                                     gettext('<li>Transcript will be displayed when you start playing the video.</li>')
                                 );
                             } else {
@@ -546,6 +539,28 @@
                             self.state.el.find('.video-wrapper').after(self.subtitlesEl);
                             self.state.el.find('.secondary-controls').append(self.container);
                             self.bindHandlers();
+
+                            // add translated instructionals
+                            /* jshint maxlen:300 */
+                            self.subtitlesEl
+                                .attr('aria-label', gettext('Video transcript: activating an item in this group will spool the video to the corresponding time point.'))
+                                .find('.transcript-title')
+                                    .text(gettext('Video transcript'));
+
+                            self.subtitlesEl
+                                .find('.transcript-start')
+                                    .text(gettext('Start of transcript. Skip to the end.'));
+
+                            self.subtitlesEl
+                                .find('.transcript-end')
+                                    .text(gettext('End of transcript. Skip to the start.'));
+
+                            /* jshint maxlen:300 */
+                            self.container
+                                .find('.menu-container .control')
+                                    .attr('aria-label', gettext('Language: Press the UP arrow key to enter the language menu then use UP and DOWN arrow keys to navigate language options. Press ENTER to change to the selected language.'))
+                                    .find('.control-text')
+                                        .text(gettext('Open langage menu.'));
                         }
 
                         self.loaded = true;
