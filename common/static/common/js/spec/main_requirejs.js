@@ -36,7 +36,7 @@
             'modernizr': 'js/vendor/afontgarde/modernizr.fontface-generatedcontent',
             'afontgarde': 'js/vendor/afontgarde/afontgarde',
             'edxicons': 'js/vendor/afontgarde/edx-icons',
-            'draggabilly': 'js/vendor/draggabilly.pkgd'
+            'draggabilly': 'js/vendor/draggabilly'
         },
         shim: {
             'gettext': {

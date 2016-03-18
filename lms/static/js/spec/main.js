@@ -65,7 +65,7 @@
             '_split': 'js/split',
             'mathjax_delay_renderer': 'coffee/src/mathjax_delay_renderer',
             'MathJaxProcessor': 'coffee/src/customwmd',
-            'draggabilly': 'xmodule_js/common_static/js/vendor/draggabilly.pkgd',
+            'draggabilly': 'xmodule_js/common_static/js/vendor/draggabilly',
 
             // Manually specify LMS files that are not converted to RequireJS
             'history': 'js/vendor/history',

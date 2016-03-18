@@ -34,7 +34,7 @@
             'support/js/certificates_factory',
             'support/js/enrollment_factory',
             'js/bookmarks/bookmarks_factory',
-            'js/vendor/draggabilly.pkgd'
+            'js/vendor/draggabilly'
         ]),
 
         /**

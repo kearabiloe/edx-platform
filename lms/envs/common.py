@@ -1638,7 +1638,7 @@ REQUIRE_JS_PATH_OVERRIDES = [
     'js/courseware/toggle_element_visibility.js',
     'js/vendor/afontgarde/afontgarde.js',
     'js/vendor/afontgarde/edx-icons.js',
-    'js/vendor/draggabilly.pkgd.js',
+    'js/vendor/draggabilly.js',
 ]
 ################################# CELERY ######################################
 

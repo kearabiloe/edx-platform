@@ -46,7 +46,7 @@ requirejs.config({
         "jasmine-imagediff": "xmodule_js/common_static/js/vendor/jasmine-imagediff",
         "jasmine-stealth": "xmodule_js/common_static/js/vendor/jasmine-stealth",
         "jasmine.async": "xmodule_js/common_static/js/vendor/jasmine.async",
-        "draggabilly": "xmodule_js/common_static/js/vendor/draggabilly.pkgd",
+        "draggabilly": "xmodule_js/common_static/js/vendor/draggabilly",
         "domReady": "xmodule_js/common_static/js/vendor/domReady",
         "URI": "xmodule_js/common_static/js/vendor/URI.min",
         "mock-ajax": "xmodule_js/common_static/js/vendor/mock-ajax",

@@ -5,7 +5,7 @@
             "modernizr": "xmodule/include/common_static/js/vendor/afontgarde/modernizr.fontface-generatedcontent",
             "afontgarde": "xmodule/include/common_static/js/vendor/afontgarde/afontgarde",
             "edxicons": "xmodule/include/common_static/js/vendor/afontgarde/edx-icons",
-            "draggabilly": "xmodule/include/common_static/js/vendor/draggabilly.pkgd"
+            "draggabilly": "xmodule/include/common_static/js/vendor/draggabilly"
         },
         "moment": {
             exports: "moment"
