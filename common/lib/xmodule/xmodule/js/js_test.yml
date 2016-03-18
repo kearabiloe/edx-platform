@@ -60,6 +60,9 @@ lib_paths:
     - common_static/js/src/accessibility_tools.js
     - common_static/js/vendor/moment.min.js
     - common_static/js/vendor/draggabilly.js
+    - common_static/js/vendor/afontgarde/modernizr.fontface-generatedcontent.js
+    - common_static/js/vendor/afontgarde/afontgarde.js
+    - common_static/js/vendor/afontgarde/edx-icons.js
     - spec/main_requirejs.js
 
 # Paths to spec (test) JavaScript files

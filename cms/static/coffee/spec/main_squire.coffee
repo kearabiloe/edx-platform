@@ -38,6 +38,9 @@ requirejs.config({
         "squire": "xmodule_js/common_static/js/vendor/Squire",
         "jasmine-stealth": "xmodule_js/common_static/js/vendor/jasmine-stealth",
         "jasmine.async": "xmodule_js/common_static/js/vendor/jasmine.async",
+        "modernizr": "xmodule_js/common_static/js/vendor/afontgarde/modernizr.fontface-generatedcontent",
+        "afontgarde": "xmodule_js/common_static/js/vendor/afontgarde/afontgarde",
+        "edxicons": "xmodule_js/common_static/js/vendor/afontgarde/edx-icons",
         "draggabilly": "xmodule_js/common_static/js/vendor/draggabilly",
         "domReady": "xmodule_js/common_static/js/vendor/domReady",
         "URI": "xmodule_js/common_static/js/vendor/URI.min",
@@ -176,6 +179,17 @@ requirejs.config({
         },
         "coffee/src/ajax_prefix": {
             deps: ["jquery"]
+        },
+        "modernizr": {
+            exports: "Modernizr"
+        },
+        "afontgarde": {
+            deps: ["jquery","modernizr"],
+            exports: "AFontGarde"
+        },
+        "edxicons": {
+            deps: ["jquery","modernizr","afontgarde"],
+            exports: "edxicons"
         }
     }
 });
