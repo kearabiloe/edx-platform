@@ -54,7 +54,7 @@
             },
 
             render: function( html ) {
-                var fieldsHtml = html ? HtmlUtils.HTML(fields) : '';
+                var fieldsHtml = html ? HtmlUtils.HTML(html) : '';
 
                 HtmlUtils.setHtml(
                     this.$el,
