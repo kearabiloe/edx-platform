@@ -2,6 +2,7 @@
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 %>
+<%page expression_filter="h"/>
 <%page args="section_data"/>
 <section id="edit-coupon-modal" class="modal" role="dialog" tabindex="-1" aria-label="${_('Edit Coupon Code')}">
   <div class="inner-wrapper">
