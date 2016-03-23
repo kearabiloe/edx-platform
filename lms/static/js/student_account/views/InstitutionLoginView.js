@@ -1,13 +1,18 @@
 ;(function (define) {
     'use strict';
-    define(['jquery', 'underscore', 'backbone'],
-        function($, _, Backbone) {
+    define([
+            'jquery',
+            'underscore',
+            'backbone',
+            'edx-ui-toolkit/js/utils/html-utils'
+        ],
+        function($, _, Backbone, HtmlUtils) {
 
         return Backbone.View.extend({
             el: '#institution_login-form',
 
             initialize: function( data ) {
-                var tpl = data.mode == 'register' ? '#institution_register-tpl' : '#institution_login-tpl';
+                var tpl = data.mode === 'register' ? '#institution_register-tpl' : '#institution_login-tpl';
                 this.tpl = $(tpl).html();
                 this.providers = data.thirdPartyAuth.secondaryProviders || [];
                 this.platformName = data.platformName;
@@ -21,10 +26,7 @@
                     platformName: this.platformName
                 });
 
-                HtmlUtils.setHtml(
-                    this.$el,
-                    HtmlUtils.HTML(output.text)
-                );                
+                HtmlUtils.setHtml(this.$el, output);            
 
                 return this;
             }

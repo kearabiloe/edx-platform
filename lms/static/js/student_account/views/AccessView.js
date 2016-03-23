@@ -90,10 +90,7 @@
                     mode: this.activeForm
                 });
 
-                HtmlUtils.setHtml(
-                    this.$el,
-                    HtmlUtils.HTML(output.text)
-                );
+                HtmlUtils.setHtml(this.$el, output);
 
                 this.postRender();
 

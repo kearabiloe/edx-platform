@@ -54,12 +54,12 @@
             },
 
             render: function( html ) {
-                var fields = html || '';
+                var fieldsHtml = html ? HtmlUtils.HTML(fields) : '';
 
                 HtmlUtils.setHtml(
                     this.$el,
                     HtmlUtils.template(this.tpl)({
-                        fields: HtmlUtils.HTML(fields),
+                        fields: fieldsHtml,
                     })
                 );
 
