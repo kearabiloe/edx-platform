@@ -42,7 +42,7 @@ from django.utils import html
         <ul class="message-copy"> </ul>
       </div>
 
-      ${survey_form}
+      ${survey_form | n, unicode}
 
       <div class="form-actions">
         <button name="submit" type="submit" id="submit" class="action action-primary action-update">${_('Submit')}</button>
