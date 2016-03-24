@@ -21,7 +21,7 @@ dependencies:
     # from scratch again.
     - pip install --exists-action w -r requirements/edx/pre.txt
     - pip install --exists-action w -r requirements/edx/github.txt:
-      timeout: 3600
+        timeout:360
     - pip install --exists-action w -r requirements/edx/local.txt
 
     # HACK: within base.txt stevedore had a
