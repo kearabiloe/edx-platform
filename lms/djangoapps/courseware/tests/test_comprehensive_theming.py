@@ -9,7 +9,7 @@ from django.contrib import staticfiles
 from paver.easy import call_task
 
 from openedx.core.djangoapps.theming.test_util import with_comprehensive_theme
-from openedx.core.lib.tempdir import mkdtemp_clean, mksym_link, cleanup_symlink
+from openedx.core.lib.tempdir import mkdtemp_clean, create_symlink, delete_symlink
 
 
 class TestComprehensiveTheming(TestCase):
@@ -54,7 +54,7 @@ class TestComprehensiveTheming(TestCase):
             footer.write("<footer>TEMPORARY THEME</footer>")
 
         dest_path = path(settings.COMPREHENSIVE_THEME_DIR) / tmp_theme
-        mksym_link(themes_dir / tmp_theme, dest_path)
+        create_symlink(themes_dir / tmp_theme, dest_path)
 
         @with_comprehensive_theme(tmp_theme)
         def do_the_test(self):
@@ -64,8 +64,8 @@ class TestComprehensiveTheming(TestCase):
             self.assertContains(resp, "TEMPORARY THEME")
 
         do_the_test(self)
-        # cleanup symlinks before running subsequent tests
-        cleanup_symlink(dest_path)
+        # remove symlinks before running subsequent tests
+        delete_symlink(dest_path)
 
     def test_theme_adjusts_staticfiles_search_path(self):
         """

@@ -1140,6 +1140,9 @@ MIDDLEWARE_CLASSES = (
     'django_comment_client.utils.ViewNameMiddleware',
     'codejail.django_integration.ConfigureCodeJailMiddleware',
 
+    # django current site middleware with default site
+    'django_sites_extensions.middleware.CurrentSiteWithDefaultMiddleware',
+
     # catches any uncaught RateLimitExceptions and returns a 403 instead of a 500
     'ratelimitbackend.middleware.RateLimitMiddleware',
     # needs to run after locale middleware (or anything that modifies the request context)
@@ -1158,9 +1161,6 @@ MIDDLEWARE_CLASSES = (
 
     # This must be last
     'microsite_configuration.middleware.MicrositeSessionCookieDomainMiddleware',
-
-    # django current site middleware with default site
-    'django_sites_extensions.middleware.CurrentSiteWithDefaultMiddleware',
 )
 
 # Clickjacking protection can be enabled by setting this to 'DENY'
@@ -2822,3 +2822,7 @@ WIKI_REQUEST_CACHE_MIDDLEWARE_CLASS = "request_cache.middleware.RequestCache"
 
 # Dafault site id to use in case there is no site that matches with the request headers.
 DEFAULT_SITE_ID = 1
+
+# Cache time out settings
+# by Comprehensive Theme system
+THEME_CACHE_TIMEOUT = 30 * 60

@@ -19,17 +19,17 @@ def cleanup_tempdir(the_dir):
         shutil.rmtree(the_dir)
 
 
-def mksym_link(src, dest):
+def create_symlink(src, dest):
     """
     Creates a symbolic link which will be deleted when the process ends.
     :param src: path to source
     :param dest: path to destination
     """
     os.symlink(src, dest)
-    atexit.register(cleanup_symlink, dest)
+    atexit.register(delete_symlink, dest)
 
 
-def cleanup_symlink(link_path):
+def delete_symlink(link_path):
     """
     Removes symbolic link for
     :param link_path:

@@ -175,4 +175,4 @@ jsonfield==1.0.3
 pynliner==0.5.2
 
 # django current site middleware with default site
-edx-django-sites-extensions
+edx-django-sites-extensions==1.0.0

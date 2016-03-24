@@ -65,6 +65,9 @@ from lms.envs.common import (
 
     # Dafault site id to use in case there is no site that matches with the request headers.
     DEFAULT_SITE_ID,
+
+    # Cache time out settings for comprehensive theming system
+    THEME_CACHE_TIMEOUT,
 )
 from path import Path as path
 from warnings import simplefilter
@@ -347,6 +350,9 @@ MIDDLEWARE_CLASSES = (
 
     'codejail.django_integration.ConfigureCodeJailMiddleware',
 
+    # django current site middleware with default site
+    'django_sites_extensions.middleware.CurrentSiteWithDefaultMiddleware',
+
     # needs to run after locale middleware (or anything that modifies the request context)
     'edxmako.middleware.MakoMiddleware',
 
@@ -358,9 +364,6 @@ MIDDLEWARE_CLASSES = (
 
     # use Django built in clickjacking protection
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # django current site middleware with default site
-    'django_sites_extensions.middleware.CurrentSiteWithDefaultMiddleware',
 )
 
 # Clickjacking protection can be enabled by setting this to 'DENY'
@@ -1140,10 +1143,6 @@ MICROSITE_BACKEND = 'microsite_configuration.backends.filebased.FilebasedMicrosi
 MICROSITE_TEMPLATE_BACKEND = 'microsite_configuration.backends.filebased.FilebasedMicrositeTemplateBackend'
 # TTL for microsite database template cache
 MICROSITE_DATABASE_TEMPLATE_CACHE_TTL = 5 * 60
-
-# Cache expiration for the version of the footer served
-# by the branding API.
-FOOTER_CACHE_TIMEOUT = 30 * 60
 
 ############################### PROCTORING CONFIGURATION DEFAULTS ##############
 PROCTORING_BACKEND_PROVIDER = {

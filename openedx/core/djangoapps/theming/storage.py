@@ -105,7 +105,37 @@ class ThemeStorage(StaticFilesStorage):
 
 class ComprehensiveThemingCachedFilesMixin(CachedFilesMixin):
     """
-    Comprehensive theming aware CachedFilesMixin.
+    Comprehensive theme aware CachedFilesMixin.
+    Main purpose of subclassing CachedFilesMixin is to override the following methods.
+    1 - url
+    2 - url_converter
+
+    url:
+        This method takes asset name as argument and is responsible for adding hash to the name to support caching.
+        This method is called during both collectstatic command and live server run.
+
+        When called during collectstatic command that name argument will be asset name inside STATIC_ROOT,
+        for non themed assets it will be the usual path (e.g. 'images/logo.png') but for themed asset it will
+        also contain themes dir prefix (e.g. 'red-theme/images/logo.png'). So, here we check whether the themed asset
+        exists or not, if it exists we pass the same name up in the MRO chain for further processing and if it does not
+        exists we strip theme name and pass the new asset name to the MRO chain for further processing.
+
+        When called during server run, we get the theme dir for the current site using `get_current_site_theme_dir` and
+        make sure to prefix theme dir to the asset name. This is done to ensure the usage of correct hash in file name.
+        e.g. if our red-theme overrides 'images/logo.png' and we do not prefix theme dir to the asset name, the hash for
+        '{platform-dir}/lms/static/images/logo.png' would be used instead of
+        '{themes_base_dir}/red-theme/images/logo.png'
+
+    url_converter:
+        This function returns another function that is responsible for hashing urls that appear inside assets
+        (e.g. url("images/logo.png") inside css). The method defined in the superclass adds a hash to file and returns
+        relative url of the file.
+        e.g. for url("../images/logo.png") it would return url("../images/logo.790c9a5340cb.png"). However we would
+        want it to return absolute url (e.g. url("/static/images/logo.790c9a5340cb.png")) so that it works properly
+        with themes.
+
+        The overridden method here simply comments out the two lines that convert absolute url to relative url,
+        hence absolute urls are used instead of relative urls.
     """
 
     def url(self, name, force=False):
@@ -252,7 +282,6 @@ class ThemePipelineMixin(PipelineMixin):
             packages: packages to update
 
         Returns: list of updated paths and a boolean indicating whether any path was path or not
-
         """
         themed_packages = {}
         for name in packages:

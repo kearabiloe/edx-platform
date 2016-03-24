@@ -181,12 +181,7 @@ def get_current_site():
     request = getattr(REQUEST_CONTEXT, 'request', None)
     if not request:
         return None
-
-    # if hostname is not valid
-    if not all((isinstance(request.get_host(), basestring), is_valid_hostname(request.get_host()))):
-        return None
-
-    return request.site
+    return getattr(request, 'site', None)
 
 
 def get_current_site_theme_dir():
@@ -284,31 +279,6 @@ def get_site_theme_cache_key(site):
     return cache_key
 
 
-def is_valid_hostname(hostname):
-    """
-    Return boolean indicating if given hostname is valid or not
-
-    Example:
-        >> is_valid_hostname('red-theme.org')
-        True
-
-    Parameters:
-        hostname (str): hostname that needs to be tested.
-    Returns:
-        (bool): True if given hostname is valid else False
-
-    """
-    if len(hostname) > 255 or "." not in hostname:
-        return False
-    if hostname[-1] == ".":
-        hostname = hostname[:-1]  # strip exactly one dot from the right, if present
-    if ":" in hostname:
-        hostname = hostname.split(":")[0]  # strip port number if present
-
-    allowed = re.compile(r"(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
-    return all(allowed.match(x) for x in hostname.split("."))
-
-
 def cache_site_theme_dir(site, theme_dir):
     """
     Cache site's theme directory.
@@ -321,7 +291,7 @@ def cache_site_theme_dir(site, theme_dir):
         site (django.contrib.sites.models.Site): site for to cache
         theme_dir (str): theme directory for the given site
     """
-    cache.set(get_site_theme_cache_key(site), theme_dir, settings.FOOTER_CACHE_TIMEOUT)
+    cache.set(get_site_theme_cache_key(site), theme_dir, settings.THEME_CACHE_TIMEOUT)
 
 
 def get_static_file_url(asset):

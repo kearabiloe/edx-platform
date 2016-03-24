@@ -1,15 +1,10 @@
 """
 Theming aware template loaders.
 """
-
-import logging
-
 from django.template.loaders.filesystem import Loader as FilesystemLoader
 
 from edxmako.makoloader import MakoLoader
 from openedx.core.djangoapps.theming.helpers import get_template_path_with_theme
-
-log = logging.getLogger(__name__)
 
 
 class ThemeTemplateLoader(MakoLoader):
