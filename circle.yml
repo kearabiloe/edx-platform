@@ -9,7 +9,6 @@ general:
 
 dependencies:
   override:
-    timeout: 3600
     - npm install
 
     - pip install setuptools
@@ -21,7 +20,8 @@ dependencies:
     # the next build will not need to install them
     # from scratch again.
     - pip install --exists-action w -r requirements/edx/pre.txt
-    - pip install --exists-action w -r requirements/edx/github.txt
+    - pip install --exists-action w -r requirements/edx/github.txt:
+      timeout: 3600
     - pip install --exists-action w -r requirements/edx/local.txt
 
     # HACK: within base.txt stevedore had a
